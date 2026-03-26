@@ -15,10 +15,15 @@ body {
   box-sizing: border-box;
 }
 
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .address-input {
   width: 100%;
   box-sizing: border-box;
-  padding: 0.6rem 0.75rem;
+  padding: 0.6rem 2rem 0.6rem 0.75rem;
   border: 1px solid rgba(128, 128, 128, 0.35);
   border-radius: 0.5rem;
   font-size: 0.95rem;
@@ -29,6 +34,23 @@ body {
 
 .address-input:focus {
   border-color: rgba(49, 51, 63, 0.5);
+}
+
+.clear-button {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  opacity: 0.6;
+  padding: 0 0.25rem;
+}
+
+.clear-button:hover {
+  opacity: 1;
 }
 
 .suggestions-list {
@@ -112,12 +134,15 @@ body {
   .address-search-root:not([data-theme="light"]) .error-text {
     color: #ff7b72;
   }
+
+  .address-search-root:not([data-theme="light"]) .clear-button {
+    color: #fafafa;
+  }
 }
 
 .address-search-root[data-theme="light"] .address-input {
   background: white;
   color: #1f1f1f;
-  border-color: rgba(128, 128, 128, 0.35);
 }
 
 .address-search-root[data-theme="light"] .suggestions-list {
@@ -161,4 +186,8 @@ body {
 
 .address-search-root[data-theme="dark"] .error-text {
   color: #ff7b72;
+}
+
+.address-search-root[data-theme="dark"] .clear-button {
+  color: #fafafa;
 }

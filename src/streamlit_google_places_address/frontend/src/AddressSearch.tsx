@@ -215,7 +215,28 @@ const AddressSearch: FC<AddressSearchProps> = ({
     }
   }
 
+  function clearInput() {
+    suppressFetchRef.current = true;
+    setInputValue("");
+    setSuggestions([]);
+    setHighlightedIndex(-1);
+    setError(null);
+    sessionTokenRef.current = null;
+    setStateValue("value", null);
+  }
+
   function onKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key === "Escape") {
+      if (inputValue) {
+        event.preventDefault();
+        clearInput();
+      } else {
+        setSuggestions([]);
+        setHighlightedIndex(-1);
+      }
+      return;
+    }
+
     if (!suggestions.length) {
       return;
     }
@@ -237,9 +258,6 @@ const AddressSearch: FC<AddressSearchProps> = ({
       if (selected) {
         void selectSuggestion(selected);
       }
-    } else if (event.key === "Escape") {
-      setSuggestions([]);
-      setHighlightedIndex(-1);
     }
   }
 
@@ -257,19 +275,44 @@ const AddressSearch: FC<AddressSearchProps> = ({
       }}
     >
       <div className="react-root-inner">
-        <input
-          className="address-input"
-          type="text"
-          value={inputValue}
-          placeholder={placeholder}
-          disabled={disabled}
-          onChange={(e) => {
-            setInputValue(e.target.value);
-            setError(null);
-          }}
-          onKeyDown={onKeyDown}
-          autoComplete="off"
-        />
+        <div className="input-wrapper">
+          <input
+            className="address-input"
+            type="text"
+            value={inputValue}
+            placeholder={placeholder}
+            disabled={disabled}
+            onChange={(e) => {
+              const nextValue = e.target.value;
+
+              setInputValue(nextValue);
+              setError(null);
+
+              // Any manual edit invalidates a previously selected address.
+              setStateValue("value", null);
+
+              if (!nextValue.trim()) {
+                setSuggestions([]);
+                setHighlightedIndex(-1);
+                sessionTokenRef.current = null;
+              }
+            }}
+            onKeyDown={onKeyDown}
+            autoComplete="off"
+          />
+
+          {inputValue && !disabled && (
+            <button
+              type="button"
+              className="clear-button"
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={clearInput}
+              aria-label="Clear input"
+            >
+              ×
+            </button>
+          )}
+        </div>
 
         {loading && <div className="status-text">Loading suggestions...</div>}
         {error && <div className="error-text">{error}</div>}
