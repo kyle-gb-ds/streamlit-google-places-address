@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "streamlit-google-places-address"
+version = "0.1.0"
+description = "A Streamlit custom component for Google Places address autocomplete"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["streamlit>=1.51"]
+license = { file = "LICENSE" }
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["streamlit_google_places_address*"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.setuptools.package-data]
+streamlit_google_places_address = [
+  "pyproject.toml",
+  "frontend/dist/**/*"
+]

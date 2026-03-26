@@ -1,0 +1,7 @@
+{
+  "name": "streamlit-google-places-address-root",
+  "private": true,
+  "scripts": {
+    "build": "npm --prefix src/streamlit_google_places_address/frontend run build && python -m build"
+  }
+}
