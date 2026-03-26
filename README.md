@@ -2,7 +2,7 @@
 
 A custom [Streamlit](https://streamlit.io/) component that provides a Google Places-powered address autocomplete input with real-time suggestions and structured output.
 
-This component integrates the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview) and the [Places Autocomplete Data API](https://developers.google.com/maps/documentation/javascript/place-autocomplete-data) into Streamlit applications via a reusable Python interface.
+This component integrates the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview) and the [Places Autocomplete Data API](https://developers.google.com/maps/documentation/javascript/place-autocomplete-data) into Streamlit applications via a simple Python interface.
 
 ## Installation
 
@@ -22,8 +22,6 @@ Install the latest version from the main branch:
     cd streamlit-google-places-address
     pip install -e .
 
----
-
 ## Configuration
 
 This component requires a Google Maps API key.
@@ -31,8 +29,6 @@ This component requires a Google Maps API key.
 Create a `.streamlit/secrets.toml` file:
 
     GOOGLE_MAPS_API_KEY = "your-api-key"
-
----
 
 ## Requirements
 
@@ -50,8 +46,6 @@ Example referrers for local development:
     http://localhost:8501/*
     http://127.0.0.1:8501/*
 
----
-
 ## Usage
 
     import streamlit as st
@@ -61,7 +55,9 @@ Example referrers for local development:
 
     api_key = st.secrets.get("GOOGLE_MAPS_API_KEY")
 
-    if api_key:
+    if not api_key:
+        st.error("Missing API key. Set GOOGLE_MAPS_API_KEY in .streamlit/secrets.toml")
+    else:
         result = address_search(
             api_key=api_key,
             placeholder="Start typing an address",
@@ -69,9 +65,8 @@ Example referrers for local development:
             theme="auto",
         )
 
-        st.write(result)
-
----
+        if result:
+            st.json(result)
 
 ## Return Value
 
@@ -87,8 +82,6 @@ The component returns a dictionary containing structured address data:
         "lng": float | None,
     }
 
----
-
 ## Parameters
 
 | Parameter | Type | Description |
@@ -101,8 +94,6 @@ The component returns a dictionary containing structured address data:
 | `theme` | `str` | `"auto"`, `"light"`, or `"dark"` |
 | `key` | `str` | Streamlit widget key |
 
----
-
 ## Theming
 
 The component supports three modes:
@@ -111,28 +102,21 @@ The component supports three modes:
 - `light` — forces light styling
 - `dark` — forces dark styling
 
----
-
 ## Features
 
 - Real-time address autocomplete using Google Places
 - Debounced input handling
-- Keyboard navigation with arrow keys, enter, and escape
+- Keyboard navigation (arrow keys, enter, escape)
 - Click and keyboard selection
 - Automatic dropdown dismissal on selection or blur
 - Optional country-based filtering
-- Structured output suitable for downstream processing
-
----
+- Structured output for downstream use
 
 ## Notes
 
-- The component executes entirely in the browser, so the API key is visible to users
+- The component runs entirely in the browser; the API key is visible to users
 - Always apply [API key restrictions](https://developers.google.com/maps/api-security-best-practices)
 - Do not use server-restricted keys
-- This project is distributed via GitHub rather than PyPI
-
----
 
 ## Development
 
@@ -150,38 +134,30 @@ The component supports three modes:
 
     streamlit run example_app.py
 
----
-
 ## Building the package
 
 From the project root:
 
     npm run build
 
-This command builds the frontend assets and produces a distributable Python package.
+This builds the frontend assets and produces a distributable Python package.
 
 For packaging details, see the [Python Packaging User Guide](https://packaging.python.org/en/latest/tutorials/packaging-projects/).
 
----
-
 ## Versioning
 
-Tagged GitHub releases are recommended for stable installs:
+Tagged releases are recommended for stable installs:
 
     git tag v0.1.0
     git push origin main --tags
 
-Users can then install that version with:
+Install a specific version:
 
     pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.0
-
----
 
 ## License
 
 MIT License. See the [LICENSE](./LICENSE) file for details.
-
----
 
 ## Acknowledgements
 
