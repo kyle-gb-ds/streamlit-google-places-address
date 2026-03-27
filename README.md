@@ -88,8 +88,6 @@ The component returns a dictionary containing structured address data:
 
 ## Parameters
 
-## Parameters
-
 | Parameter | Type | Default | Description |
 |---|---|---|---|
 | `label` | `str` | — | Label displayed above the input (required). |
