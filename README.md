@@ -4,13 +4,15 @@ A custom [Streamlit](https://streamlit.io/) component that provides a Google Pla
 
 This component integrates the [Google Maps JavaScript API](https://developers.google.com/maps/documentation/javascript/overview) and the [Places Autocomplete Data API](https://developers.google.com/maps/documentation/javascript/place-autocomplete-data) into Streamlit applications via a simple Python interface.
 
+![Demo](assets/demo.gif)
+
 ## Installation
 
 ### From GitHub
 
 Install a tagged version:
 
-    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.0
+    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.1
 
 Install the latest version from the main branch:
 
@@ -148,12 +150,12 @@ For packaging details, see the [Python Packaging User Guide](https://packaging.p
 
 Tagged releases are recommended for stable installs:
 
-    git tag v0.1.0
+    git tag v0.1.1
     git push origin main --tags
 
 Install a specific version:
 
-    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.0
+    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.1
 
 ## License
 
