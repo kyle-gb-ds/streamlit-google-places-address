@@ -12,7 +12,7 @@ This component integrates the [Google Maps JavaScript API](https://developers.go
 
 Install a tagged version:
 
-    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.1
+    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.2
 
 Install the latest version from the main branch:
 
@@ -93,7 +93,7 @@ The component returns a dictionary containing structured address data:
 | `value` | `str` | Initial input value |
 | `country` | `str \| None` | Restrict results by ISO 2-letter country code |
 | `disabled` | `bool` | Disable the input |
-| `theme` | `str` | `"auto"`, `"light"`, or `"dark"` |
+| `theme` | `str \| None` | Optional override: `"auto"`, `"light"`, or `"dark"` |
 | `key` | `str` | Streamlit widget key |
 
 ## Theming
@@ -103,6 +103,8 @@ The component supports three modes:
 - `auto` — follows system theme via `prefers-color-scheme`
 - `light` — forces light styling
 - `dark` — forces dark styling
+
+If `theme` is not provided, the component uses its default styling behavior. For the most consistent results in Streamlit apps, pass an explicit theme if needed.
 
 ## Features
 
@@ -150,12 +152,12 @@ For packaging details, see the [Python Packaging User Guide](https://packaging.p
 
 Tagged releases are recommended for stable installs:
 
-    git tag v0.1.1
+    git tag v0.1.2
     git push origin main --tags
 
 Install a specific version:
 
-    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.1
+    pip install git+https://github.com/kyle-gb-ds/streamlit-google-places-address.git@v0.1.2
 
 ## License
 

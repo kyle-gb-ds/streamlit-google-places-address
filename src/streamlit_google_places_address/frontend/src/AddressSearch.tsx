@@ -15,6 +15,9 @@ export type AddressSearchStateShape = {
 };
 
 export type AddressSearchDataShape = {
+  label: string;
+  labelVisibility?: "visible" | "hidden" | "collapsed";
+  help?: string | null;
   apiKey: string;
   placeholder?: string;
   value?: string;
@@ -34,6 +37,9 @@ const AddressSearch: FC<AddressSearchProps> = ({
   data,
   setStateValue,
 }): ReactElement => {
+  const label = data.label;
+  const labelVisibility = data.labelVisibility ?? "visible";
+  const help = data.help;
   const apiKey = String(data.apiKey ?? "");
   const placeholder = String(data.placeholder ?? "Search for an address");
   const initialValue = String(data.value ?? "");
@@ -133,7 +139,7 @@ const AddressSearch: FC<AddressSearchProps> = ({
       const { suggestions } =
         await AutocompleteSuggestion.fetchAutocompleteSuggestions(request);
 
-      setSuggestions((suggestions ?? []));
+      setSuggestions(suggestions ?? []);
       setHighlightedIndex(-1);
       setError(null);
     } catch (err) {
@@ -275,43 +281,93 @@ const AddressSearch: FC<AddressSearchProps> = ({
       }}
     >
       <div className="react-root-inner">
-        <div className="input-wrapper">
-          <input
-            className="address-input"
-            type="text"
-            value={inputValue}
-            placeholder={placeholder}
-            disabled={disabled}
-            onChange={(e) => {
-              const nextValue = e.target.value;
-
-              setInputValue(nextValue);
-              setError(null);
-
-              // Any manual edit invalidates a previously selected address.
-              setStateValue("value", null);
-
-              if (!nextValue.trim()) {
-                setSuggestions([]);
-                setHighlightedIndex(-1);
-                sessionTokenRef.current = null;
-              }
-            }}
-            onKeyDown={onKeyDown}
-            autoComplete="off"
-          />
-
-          {inputValue && !disabled && (
-            <button
-              type="button"
-              className="clear-button"
-              onMouseDown={(e) => e.preventDefault()}
-              onClick={clearInput}
-              aria-label="Clear input"
+        <div className="address-container">
+          {labelVisibility !== "collapsed" && (
+            <div
+              className={`label-row ${
+                labelVisibility === "hidden" ? "hidden-label" : ""
+              }`}
             >
-              ×
-            </button>
+              <label className="address-label">{label}</label>
+
+              {help && (
+                <div className="help-tooltip-container">
+                  <button
+                    type="button"
+                    className="help-icon-button"
+                    aria-label={help}
+                  >
+                    <svg
+                      className="help-icon-svg"
+                      viewBox="0 0 16 16"
+                      aria-hidden="true"
+                      focusable="false"
+                    >
+                      <circle
+                        cx="8"
+                        cy="8"
+                        r="6.25"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                      />
+                      <line
+                        x1="8"
+                        y1="7"
+                        x2="8"
+                        y2="11"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
+                      <circle cx="8" cy="4.7" r="0.9" fill="currentColor" />
+                    </svg>
+                  </button>
+                  <div className="help-tooltip" role="tooltip">
+                    {help}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
+
+          <div className="input-wrapper">
+            <input
+              className="address-input"
+              type="text"
+              value={inputValue}
+              placeholder={placeholder}
+              disabled={disabled}
+              onChange={(e) => {
+                const nextValue = e.target.value;
+
+                setInputValue(nextValue);
+                setError(null);
+                // Any manual edit invalidates a previously selected address.
+                setStateValue("value", null);
+
+                if (!nextValue.trim()) {
+                  setSuggestions([]);
+                  setHighlightedIndex(-1);
+                  sessionTokenRef.current = null;
+                }
+              }}
+              onKeyDown={onKeyDown}
+              autoComplete="off"
+            />
+
+            {inputValue && !disabled && (
+              <button
+                type="button"
+                className="clear-button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={clearInput}
+                aria-label="Clear input"
+              >
+                ×
+              </button>
+            )}
+          </div>
         </div>
 
         {loading && <div className="status-text">Loading suggestions...</div>}

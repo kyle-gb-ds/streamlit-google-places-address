@@ -5,24 +5,18 @@ st.set_page_config(page_title="Address Search Demo")
 
 st.title("Address Search")
 
-# Load API key from Streamlit secrets
 api_key = st.secrets.get("GOOGLE_MAPS_API_KEY")
 
 if not api_key:
-    st.error("API key not configured.")
-    st.info("Create `.streamlit/secrets.toml` and add GOOGLE_MAPS_API_KEY.")
+    st.error("Missing API key. Set GOOGLE_MAPS_API_KEY in .streamlit/secrets.toml")
     st.stop()
 
-
-country = st.text_input("Country Code (optional)", value="za")
-
-st.write("Start typing an address below:")
-
 result = address_search(
+    label="Address Search",
     api_key=api_key,
-    placeholder="Start typing an address...",
-    country=country or None,
-    theme="auto",
+    help="Search for and select a suggested address.",
+    placeholder="Start typing an address",
+    country="za",
     key="address_search_demo",
 )
 

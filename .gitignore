@@ -63,6 +63,7 @@ Thumbs.db
 htmlcov/
 test_app.py
 demo_app.py
+compare_app.py
 
 # =========================
 # Jupyter
