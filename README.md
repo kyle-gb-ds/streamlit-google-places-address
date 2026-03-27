@@ -59,16 +59,18 @@ Example referrers for local development:
 
     if not api_key:
         st.error("Missing API key. Set GOOGLE_MAPS_API_KEY in .streamlit/secrets.toml")
-    else:
-        result = address_search(
-            api_key=api_key,
-            placeholder="Start typing an address",
-            country="za",  # optional
-            theme="auto",
-        )
+        st.stop()
 
-        if result:
-            st.json(result)
+    result = address_search(
+        label="Address",
+        api_key=api_key,
+        help="Search for and select a suggested address.",
+        placeholder="Start typing an address",
+        country="za",  # optional
+    )
+
+    if result:
+        st.json(result)
 
 ## Return Value
 
@@ -86,15 +88,20 @@ The component returns a dictionary containing structured address data:
 
 ## Parameters
 
-| Parameter | Type | Description |
-|---|---|---|
-| `api_key` | `str` | Google Maps browser API key |
-| `placeholder` | `str` | Input placeholder text |
-| `value` | `str` | Initial input value |
-| `country` | `str \| None` | Restrict results by ISO 2-letter country code |
-| `disabled` | `bool` | Disable the input |
-| `theme` | `str \| None` | Optional override: `"auto"`, `"light"`, or `"dark"` |
-| `key` | `str` | Streamlit widget key |
+## Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `label` | `str` | — | Label displayed above the input (required). |
+| `api_key` | `str` | — | Google Maps browser API key. |
+| `placeholder` | `str` | `"Search for an address"` | Placeholder text shown in the input field. |
+| `value` | `str` | `""` | Initial input value. |
+| `country` | `str \| None` | `None` | Restrict results by ISO 2-letter country code (e.g. `"za"`). |
+| `disabled` | `bool` | `False` | Disable the input field. |
+| `theme` | `"auto" \| "light" \| "dark" \| None` | `None` | Optional theme override. If not provided, uses default styling. |
+| `label_visibility` | `"visible" \| "hidden" \| "collapsed"` | `"visible"` | Controls visibility and spacing of the label. |
+| `help` | `str \| None` | `None` | Optional help tooltip displayed next to the label. |
+| `key` | `str \| None` | `None` | Unique key for the component instance. |
 
 ## Theming
 
